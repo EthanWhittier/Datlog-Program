@@ -59,6 +59,7 @@ bool Interpreter::isConstant(string parameter) {
 
 void Interpreter::EvaluateQuery(string relationName, vector<string>paramList) {
 
+    
     //Grab Relation from Database and setup Data
     ptr = database.find(relationName);
 	Relation newRelation = ptr->second;
