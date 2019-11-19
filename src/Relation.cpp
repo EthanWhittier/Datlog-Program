@@ -149,28 +149,60 @@ void Relation::Rename(vector<string>queryP, unordered_map<string, int>newColumns
 
 	 Relation Relation::Join(Relation relation2) {
 
-		 
+		 Relation joinedRelation;
+		 Scheme joinedScheme;
+		 Tuple joinedTuple;
+
+		 //COMBINE SCHEMES
 		 if(isJoinable(relation2)) {
-			
-			Relation joinedRelation;
-			Scheme joinedScheme;
+		
 			joinedScheme  = CombineSchemes(relation2);
 			joinedRelation.scheme = joinedScheme;
 			joinedRelation.relationName = relationName; //MIGHT NEED TO FIX RELATION NAME
-
+			
 
 		 }
 		 
 		 else {
 
 			 Relation joinedRelation(relationName, scheme);   //MIGHT NEED TO FIX RELATION NAME
-
+			 
 		 }
 
+		//COMBINE TUPLES
+
+		
+		bool isEqual = true;
+		GetAttributeInBoth(relation2);
+
+		for(it = Tuples.begin(); it != Tuples.end(); it++) {
+
+			for(ptr = relation2.Tuples.begin(); ptr != relation2.Tuples.end(); ptr++) {
+
+				for(unsigned int i = 0; i < equalColumns.size(); i++) {
+
+					if(it->at(equalColumns.at(i).first) != ptr->at(equalColumns.at(i).second)) {
+
+							isEqual = false;
+							break;
+					}
+
+				}
+
+				if(isEqual == true) {
+					joinedTuple = CombineTuples(relation2);
+					joinedRelation.addTuple(joinedTuple);
+				}
+				
+
+			}
+
+
+		}
 
 
 
-
+		return joinedRelation;
 	 }
 
 
@@ -226,5 +258,34 @@ void Relation::Rename(vector<string>queryP, unordered_map<string, int>newColumns
 
 
 	
+	void Relation::GetAttributeInBoth(Relation relation2) {
+
+		for(unsigned int i = 0; i < scheme.size(); i++) {
+			for(unsigned int j = 0; j < relation2.scheme.size(); j++) {
+
+				if(scheme.at(i) == relation2.scheme.at(j)) {
+					pair<int, int> sameScheme;
+					sameScheme.first = i;
+					sameScheme.second = j;
+					equalColumns.push_back(sameScheme);
+				}
+
+			}
+		}
+
+
+	}
+	
+	Tuple Relation::CombineTuples(Relation relation2) {
+
+
+		Tuple combinedTuple;
+		
+	 	
+		
+
+		return combinedTuple;
+ 
+	}
 
 	

@@ -12,6 +12,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <algorithm>
+#include <utility>
 
 
 using namespace std;
@@ -40,6 +41,12 @@ class Relation {
         map<string, int> newColumns;
         bool isJoinable(Relation relation2);
         Scheme CombineSchemes(Relation relation2);
+        void GetAttributeInBoth(Relation relation2);
+        Tuple CombineTuples(Relation relation2);
+        vector<pair<int, int>> equalColumns;
+        set<Tuple>::iterator it;
+		set<Tuple>::iterator ptr;
+
 
 };
 
