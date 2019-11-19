@@ -1,0 +1,189 @@
+#include "Interpreter.h"
+
+
+Interpreter::Interpreter(DatalogProgram datalog) {
+
+    this->datalog = datalog;
+
+
+
+	for (unsigned int i = 0; i < datalog.predicateSchemes.size(); i++) {
+
+		string name = datalog.predicateSchemes.at(i).name;
+		Scheme scheme;
+
+
+        for (unsigned int j = 0; j < datalog.predicateSchemes.at(i).paramList.size(); j++) {
+            scheme.push_back( datalog.predicateSchemes.at(i).paramList.at(j));
+        }
+
+        Relation relation(name, scheme);
+		    database.insert({ name, relation });
+    }
+
+    for (unsigned int i = 0; i < datalog.predicateFacts.size(); i++) {
+
+        string name = datalog.predicateFacts.at(i).name;
+        Tuple tuple;
+
+        for (unsigned int j = 0; j < datalog.predicateFacts.at(i).paramList.size(); j++) {
+            tuple.push_back(datalog.predicateFacts.at(i).paramList.at(j));
+        }
+
+        map<string, Relation>::iterator it;
+        it = database.find(name);
+        it->second.addTuple(tuple);
+    }
+
+    map<string, Relation>::iterator it;
+    for (it = database.begin(); it != database.end(); it++) {
+
+        //it->second.toString();
+
+    }
+}
+
+bool Interpreter::isConstant(string parameter) {
+
+	this->parameter = parameter;
+
+    if(parameter.at(0) == '\'') {
+        return true;
+    }
+    else {
+        return false;
+    }
+
+}
+
+
+void Interpreter::EvaluateQuery(string relationName, vector<string>paramList) {
+
+    //Grab Relation from Database and setup Data
+    ptr = database.find(relationName);
+	Relation newRelation = ptr->second;
+    unordered_map<string, int> queryMap;
+
+
+    for (unsigned int i = 0; i < paramList.size(); i++) {
+        queryParams.push_back(paramList.at(i));
+    }
+    this->relationName = relationName;
+
+    //Index Query
+
+    //Go through ParamList and Select
+
+    for (unsigned int i = 0; i < queryParams.size(); i ++) {
+
+
+        if(isConstant(queryParams.at(i))) {
+
+			newRelation = newRelation.Select1(i, queryParams.at(i));
+			//newRelation.toString();
+
+        }
+
+        else {
+
+            auto search = queryMap.find(queryParams.at(i));
+
+            if(search != queryMap.end()) {
+
+				newRelation = newRelation.Select2(search->second, i);
+				//newRelation.toString();
+
+            }
+            else {
+
+                //queryMap.insert({queryParams.at(i), i});
+				queryMap[queryParams.at(i)] = i;
+            }
+
+        }
+
+    }
+
+    //Project
+
+    unordered_map<string, int>::iterator it;
+    for (it = queryMap.begin(); it != queryMap.end(); it++) {
+
+		columns.push_back(it->second);
+    }
+
+
+	if (!columns.empty()) {
+		newRelation = newRelation.Project(columns);
+	}
+
+
+
+	//newRelation.Rename(queryMap);
+	newRelation.Rename(queryParams, queryMap);
+
+	queryAnswers.push_back(newRelation);
+
+	queryParams.clear();
+	columns.clear();
+
+}
+
+
+void Interpreter::EvaluateQueries() {
+
+    for (unsigned int i = 0; i < datalog.predicateQueries.size(); i++) {
+
+		EvaluateQuery(datalog.predicateQueries.at(i).name, datalog.predicateQueries.at(i).paramList);
+
+    }
+
+	toStringQuery();
+}
+
+void Interpreter::toStringQuery() {
+
+
+	for (unsigned int i = 0; i < queryAnswers.size(); i++) {
+
+		cout << datalog.predicateQueries.at(i).name << "(";
+
+		for (unsigned int j = 0; j < datalog.predicateQueries.at(i).paramList.size(); j++) {
+
+			if (j != datalog.predicateQueries.at(i).paramList.size() - 1) {
+				cout << datalog.predicateQueries.at(i).paramList.at(j) << ",";
+			}
+			else {
+				cout << datalog.predicateQueries.at(i).paramList.at(j);
+			}
+
+		}
+
+		cout << ")? ";
+
+
+		if (queryAnswers.at(i).Tuples.empty()) {
+
+			cout << "No" << endl;
+
+		}
+		else {
+
+			cout << "Yes(" << queryAnswers.at(i).Tuples.size() << ")" << endl;
+
+			for (unsigned int j = 0; j < datalog.predicateQueries.at(i).paramList.size(); j++) {
+
+				if (datalog.predicateQueries.at(i).paramList.at(j).at(0) != '\'') {
+					queryAnswers.at(i).toString();
+					break;
+				}
+
+
+			}
+
+		}
+
+
+	}
+
+}
