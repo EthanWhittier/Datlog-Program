@@ -16,12 +16,17 @@ class Interpreter {
     public:
         Interpreter(DatalogProgram datalog);
 		void EvaluateQueries();
+        void EvaluateRules();
 
     private:
         DatalogProgram datalog;
 		Database database;
         void EvaluateQuery(string relationName, vector<string>paramList);
+        void EvaluateRule();
         bool isConstant(string parameter);
+        int TupleCount();
+        int tuplesBeforeRules = 0;
+        int tuplesAfterRules = 0;
         string relationName;
         string parameter;
         map<string, Relation>::iterator ptr;

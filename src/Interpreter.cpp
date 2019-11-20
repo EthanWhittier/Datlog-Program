@@ -188,3 +188,27 @@ void Interpreter::toStringQuery() {
 	}
 
 }
+
+
+
+void Interpreter::EvaluateRules() {
+
+    bool tuplesAdded = true;
+
+    while(tuplesAdded) {
+
+    
+    
+
+    }
+
+
+}
+
+
+int Interpreter::TupleCount() {
+
+
+
+
+}

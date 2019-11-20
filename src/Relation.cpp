@@ -153,14 +153,6 @@ void Relation::Rename(vector<string>queryP, unordered_map<string, int>newColumns
 		 Scheme joinedScheme;
 		 Tuple joinedTuple;
 
-		if(scheme == relation2.scheme) {
-
-			joinedRelation = CrossProduct(relation2);
-			return joinedRelation;
-
-		}
-
-
 		 //COMBINE SCHEMES
 		 if(isJoinable(relation2)) {
 		
@@ -173,8 +165,10 @@ void Relation::Rename(vector<string>queryP, unordered_map<string, int>newColumns
 		 
 		 else {
 
-			 Relation joinedRelation;
+			 
+			 joinedScheme = CombineSchemes(relation2);
 			 joinedRelation = CrossProduct(relation2);
+			 joinedRelation.scheme = joinedScheme;
 
 			 return joinedRelation;
 			    
@@ -314,9 +308,20 @@ void Relation::Rename(vector<string>queryP, unordered_map<string, int>newColumns
 
 	Relation Relation::CrossProduct(Relation relation2) {
 
+		Relation joinedRelation;
 
+		for(it = Tuples.begin(); it != Tuples.end(); it++) {
+
+			for(ptr = relation2.Tuples.begin(); ptr != relation2.Tuples.end(); ptr++) {
+
+				joinedRelation.addTuple(CombineTuples(relation2));
+				
+
+			}
+
+		}
 		
-
+		return joinedRelation;
 
 	}
 	
