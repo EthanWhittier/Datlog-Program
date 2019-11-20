@@ -22,11 +22,12 @@ public:
 	void clearHeadPred();
 	void clearRulePreds();
 	void headPredToString(Predicate pred);
+	Predicate headPred;
+	vector<Predicate> rulePred;
 
 
 private:
-	Predicate headPred;
-	vector<Predicate> rulePred;
+
 
 
 };

@@ -8,8 +8,6 @@ Rule::Rule()
 }
 
 
-
-
 void Rule::toString() {
 
 
@@ -61,8 +59,6 @@ void Rule::predToString(Predicate pred) {
 
 
 }
-
-
 
 
 void Rule::predToStringDone(Predicate pred) {

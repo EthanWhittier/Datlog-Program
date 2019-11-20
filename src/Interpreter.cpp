@@ -190,18 +190,118 @@ void Interpreter::toStringQuery() {
 }
 
 
+void Interpreter::EvaluateRulePred(string relationName, vector<string>paramList) {
+
+    //Grab Relation from Database and setup Data
+    ptr = database.find(relationName);
+	Relation newRelation = ptr->second;
+    unordered_map<string, int> ruleMap;
+
+
+    for (unsigned int i = 0; i < paramList.size(); i++) {
+        ruleParams.push_back(paramList.at(i));
+    }
+    this->relationName = relationName;
+
+    //Index Query
+
+    //Go through ParamList and Select
+
+    for (unsigned int i = 0; i < ruleParams.size(); i ++) {
+
+
+        if(isConstant(ruleParams.at(i))) {
+
+			newRelation = newRelation.Select1(i, ruleParams.at(i));
+			
+
+        }
+
+        else {
+
+            auto search = ruleMap.find(ruleParams.at(i));
+
+            if(search != ruleMap.end()) {
+
+				newRelation = newRelation.Select2(search->second, i);
+				
+
+            }
+            else {
+
+				ruleMap[ruleParams.at(i)] = i;
+            }
+
+        }
+
+
+    }
+
+    //Project
+
+    unordered_map<string, int>::iterator it;
+    for (it = ruleMap.begin(); it != ruleMap.end(); it++) {
+
+		columns.push_back(it->second);
+    }
+
+	if (!columns.empty()) {
+		newRelation = newRelation.Project(columns);
+	}
+
+	//newRelation.Rename(queryMap);
+	newRelation.Rename(ruleParams, ruleMap);
+
+	ruleAnswers.push_back(newRelation);
+
+	ruleParams.clear();
+	columns.clear();
+
+}
+
 
 void Interpreter::EvaluateRules() {
 
     bool tuplesAdded = true;
 
+
+
     while(tuplesAdded) {
 
-    
-    
+        tuplesBeforeRules = TupleCount();
 
+        for(int i = 0; i < datalog.rules.size(); i++) {
+
+           for(int j = 0; j < datalog.rules.at(i).rulePred.size(); j++) {
+
+               EvaluateRulePred(datalog.rules.at(i).rulePred.at(j).name, datalog.rules.at(i).rulePred.at(j).paramList);
+
+
+           }
+            
+
+        }
+
+        tuplesAfterRules = TupleCount();
+
+        if(tuplesBeforeRules == tuplesAfterRules) {
+            tuplesAdded = false;
+        }
+    
     }
 
+
+}
+
+
+Relation Interpreter::JoinMultiple() {
+
+
+    for(unsigned int i = 0; i < ruleAnswers.size(); i++) {
+
+        
+
+    }
 
 }
 
@@ -209,6 +309,17 @@ void Interpreter::EvaluateRules() {
 int Interpreter::TupleCount() {
 
 
+    int tup = 0;
+
+    map<string, Relation>::iterator it;
+
+    for(it = database.begin(); it != database.end(); it++) {
+
+        tup += it->second.Tuples.size();
+
+    }
+
+    return tup;
 
 
 }

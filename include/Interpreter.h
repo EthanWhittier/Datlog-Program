@@ -22,7 +22,8 @@ class Interpreter {
         DatalogProgram datalog;
 		Database database;
         void EvaluateQuery(string relationName, vector<string>paramList);
-        void EvaluateRule();
+        void EvaluateRulePred(string relationName, vector<string>paramList);
+        Relation JoinMultiple();
         bool isConstant(string parameter);
         int TupleCount();
         int tuplesBeforeRules = 0;
@@ -31,7 +32,9 @@ class Interpreter {
         string parameter;
         map<string, Relation>::iterator ptr;
         vector<string> queryParams;
+        vector<string> ruleParams;
         vector<Relation> queryAnswers;
+        vector<Relation> ruleAnswers;
         vector<unsigned int> columns;
 		void toStringQuery();
 
