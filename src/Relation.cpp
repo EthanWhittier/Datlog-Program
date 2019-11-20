@@ -153,6 +153,14 @@ void Relation::Rename(vector<string>queryP, unordered_map<string, int>newColumns
 		 Scheme joinedScheme;
 		 Tuple joinedTuple;
 
+		if(scheme == relation2.scheme) {
+
+			joinedRelation = CrossProduct(relation2);
+			return joinedRelation;
+
+		}
+
+
 		 //COMBINE SCHEMES
 		 if(isJoinable(relation2)) {
 		
@@ -165,13 +173,15 @@ void Relation::Rename(vector<string>queryP, unordered_map<string, int>newColumns
 		 
 		 else {
 
-			 Relation joinedRelation(relationName, scheme);   //MIGHT NEED TO FIX RELATION NAME
+			 Relation joinedRelation;
+			 joinedRelation = CrossProduct(relation2);
+
+			 return joinedRelation;
+			    
 			 
 		 }
 
 		//COMBINE TUPLES
-
-		
 		bool isEqual = true;
 		GetAttributeInBoth(relation2);
 
@@ -182,9 +192,8 @@ void Relation::Rename(vector<string>queryP, unordered_map<string, int>newColumns
 				for(unsigned int i = 0; i < equalColumns.size(); i++) {
 
 					if(it->at(equalColumns.at(i).first) != ptr->at(equalColumns.at(i).second)) {
-
-							isEqual = false;
-							break;
+						isEqual = false;
+						break;
 					}
 
 				}
@@ -192,16 +201,15 @@ void Relation::Rename(vector<string>queryP, unordered_map<string, int>newColumns
 				if(isEqual == true) {
 					joinedTuple = CombineTuples(relation2);
 					joinedRelation.addTuple(joinedTuple);
+
 				}
+				isEqual = true;
 				
 
 			}
 
 
 		}
-
-
-
 		return joinedRelation;
 	 }
 
@@ -257,7 +265,6 @@ void Relation::Rename(vector<string>queryP, unordered_map<string, int>newColumns
 	}
 
 
-	
 	void Relation::GetAttributeInBoth(Relation relation2) {
 
 		for(unsigned int i = 0; i < scheme.size(); i++) {
@@ -280,12 +287,36 @@ void Relation::Rename(vector<string>queryP, unordered_map<string, int>newColumns
 
 
 		Tuple combinedTuple;
-		
-	 	
-		
+		bool isRepeat = false;
+		for(unsigned int i = 0; i < it->size(); i++) {
+			combinedTuple.push_back(it->at(i));
+		}
 
+		
+			
+		for(unsigned j = 0; j < relation2.scheme.size(); j++) {
+			for(unsigned z = 0; z < scheme.size(); z++) {
+				if(relation2.scheme.at(j) == scheme.at(z)) {
+					isRepeat = true;
+					break;
+				}
+			}
+
+			if(!isRepeat) {
+				combinedTuple.push_back(ptr->at(j));
+			}
+			isRepeat = false;
+
+		}
 		return combinedTuple;
  
 	}
 
+	Relation Relation::CrossProduct(Relation relation2) {
+
+
+		
+
+
+	}
 	

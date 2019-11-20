@@ -42,6 +42,7 @@ class Relation {
         bool isJoinable(Relation relation2);
         Scheme CombineSchemes(Relation relation2);
         void GetAttributeInBoth(Relation relation2);
+        Relation CrossProduct(Relation relation2);
         Tuple CombineTuples(Relation relation2);
         vector<pair<int, int>> equalColumns;
         set<Tuple>::iterator it;
