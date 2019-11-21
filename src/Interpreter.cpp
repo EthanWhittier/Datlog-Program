@@ -274,29 +274,29 @@ void Interpreter::EvaluateRules() {
            for(unsigned int j = 0; j < datalog.rules.at(i).rulePred.size(); j++) {
 
                EvaluateRulePred(datalog.rules.at(i).rulePred.at(j).name, datalog.rules.at(i).rulePred.at(j).paramList);
-               relationFromRule = JoinMultiple();
+
+           }
+            relationFromRule = JoinMultiple();
                
                //ProjectHeadPred
-               for(unsigned int z = 0; z < relationFromRule.scheme.size(); z++) {
+            for(unsigned int z = 0; z < relationFromRule.scheme.size(); z++) {
                    
-                   for(unsigned int k = 0; k < datalog.rules.at(i).headPred.paramList.size(); k++) {
+                 for(unsigned int k = 0; k < datalog.rules.at(i).headPred.paramList.size(); k++) {
 
-                       if(relationFromRule.scheme.at(z) == datalog.rules.at(i).headPred.paramList.at(k)) {
-                           columns.push_back(i);
-                           break;
-                       }
+                    if(relationFromRule.scheme.at(z) == datalog.rules.at(i).headPred.paramList.at(k)) {
+                        columns.push_back(i);
+                        break;
+                    }
 
-                   }
-               }
+                }
+            }
 
-               relationFromRule.Project(columns);
-               columns.clear();
+            relationFromRule.Project(columns);
+            columns.clear();
 
-               ptr = database.find(relationFromRule.relationName);
-               relationFromRule.scheme = ptr->second.scheme;
-               ptr->second = ptr->second.Unite(relationFromRule);
-            
-           }
+            ptr = database.find(relationFromRule.relationName);
+            relationFromRule.scheme = ptr->second.scheme;
+            ptr->second = ptr->second.Unite(relationFromRule);
             
 
         }
@@ -309,8 +309,7 @@ void Interpreter::EvaluateRules() {
     
     }
 
-    ptr = database.find("cn");
-    ptr->second.toString();
+    
 
 
 }

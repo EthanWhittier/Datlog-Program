@@ -1,21 +1,21 @@
-
-
 Schemes:
-
-x(A,B,C)
-y(B,C,D)
-z(A,B,C,D)
+  meal(type, entree, side)
+  Day(first, second, third)
+  Grocery(item)
 
 Facts:
-
-x('2','2','2').
-y('2','2','4').
+  meal('breakfast', 'eggs', 'bacon').
+  meal('breakfast', 'oatmeal', 'apple').
+  meal('lunch', 'sandwich', 'banana').
+  meal('lunch', 'pasta', 'soup').
+  meal('dinner', 'pasta', 'broccoli').
+  Day('ice cream', 'cookies', 'cake').
 
 Rules:
-
-z(a,b,c,d) :- x(a,b,c), y(b,c,d).
+     Day(x,y,z) :- meal('breakfast', x, a), meal('lunch', y, b), meal('dinner', z, c).
+     Grocery(food) :- meal(r, food, s).
+     Grocery(food) :- meal(r, s, food).
 
 Queries:
-
-z(a,b,c,d)?
-
+     Day(same, same, same)?
+     Grocery('broccoli')?
