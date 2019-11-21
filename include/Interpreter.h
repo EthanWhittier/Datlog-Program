@@ -24,7 +24,6 @@ class Interpreter {
         void EvaluateQuery(string relationName, vector<string>paramList);
         void EvaluateRulePred(string relationName, vector<string>paramList);
         Relation JoinMultiple();
-        Relation ProjectHeadPred();
         bool isConstant(string parameter);
         int TupleCount();
         int tuplesBeforeRules = 0;

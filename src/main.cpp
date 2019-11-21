@@ -96,7 +96,7 @@ int main(int argc, char* argv[]) {
 
 
 
-	/*string fileName = argv[1];
+	string fileName = argv[1];
 
 	Scanner DataLogScanner(fileName);
 	Token GroupedTokens;
@@ -110,10 +110,12 @@ int main(int argc, char* argv[]) {
 
 	Interpreter interperter(parser.datalog);
 
-	interperter.EvaluateQueries();*/
+	interperter.EvaluateRules();
+
+	interperter.EvaluateQueries();
 
 
-	testJoin();
+	
    
 
 

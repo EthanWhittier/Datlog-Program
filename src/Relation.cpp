@@ -350,12 +350,4 @@ void Relation::Rename(vector<string>queryP, unordered_map<string, int>newColumns
 	}
 	
 
-	Relation Relation::ProjectHeadPred(Relation ruleRelation) {
-
-		for(unsigned int i = 0; i < ruleRelation.scheme.size(); i++) {
-			
-		}
-
-
-
-	}
+	

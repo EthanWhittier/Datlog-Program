@@ -277,11 +277,11 @@ void Interpreter::EvaluateRules() {
                relationFromRule = JoinMultiple();
                
                //ProjectHeadPred
-               for(unsigned int i = 0; i < relationFromRule.scheme.size(); i++) {
+               for(unsigned int z = 0; z < relationFromRule.scheme.size(); z++) {
                    
-                   for(unsigned int j = 0; j < datalog.rules.at(i).headPred.paramList.size(); j++) {
+                   for(unsigned int k = 0; k < datalog.rules.at(i).headPred.paramList.size(); k++) {
 
-                       if(relationFromRule.scheme.at(i) == datalog.rules.at(i).headPred.paramList.at(j)) {
+                       if(relationFromRule.scheme.at(z) == datalog.rules.at(i).headPred.paramList.at(k)) {
                            columns.push_back(i);
                            break;
                        }
@@ -293,14 +293,9 @@ void Interpreter::EvaluateRules() {
                columns.clear();
 
                ptr = database.find(relationFromRule.relationName);
-               relationFromRule.scheme = ptr->second
-
-               
-                
-                
-
-
-
+               relationFromRule.scheme = ptr->second.scheme;
+               ptr->second = ptr->second.Unite(relationFromRule);
+            
            }
             
 
@@ -313,6 +308,9 @@ void Interpreter::EvaluateRules() {
         }
     
     }
+
+    ptr = database.find("cn");
+    ptr->second.toString();
 
 
 }
@@ -351,14 +349,4 @@ int Interpreter::TupleCount() {
 
 }
 
-Relation Interpreter::ProjectHeadPred() {
 
-		for(unsigned int i = 0; i < relationFromRule.scheme.size(); i++) {
-            
-            
-
-		}
-
-
-
-	}
