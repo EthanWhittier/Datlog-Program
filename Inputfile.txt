@@ -1,21 +1,23 @@
 Schemes:
-  meal(type, entree, side)
-  Day(first, second, third)
-  Grocery(item)
+  snap(S,N,A,P)
+  csg(C,S,G)
+  cn(C,N)
+  ncg(N,C,G)
 
 Facts:
-  meal('breakfast', 'eggs', 'bacon').
-  meal('breakfast', 'oatmeal', 'apple').
-  meal('lunch', 'sandwich', 'banana').
-  meal('lunch', 'pasta', 'soup').
-  meal('dinner', 'pasta', 'broccoli').
-  Day('ice cream', 'cookies', 'cake').
+  snap('12345','C. Brown','12 Apple St.','555-1234').
+  snap('22222','P. Patty','56 Grape Blvd','555-9999').
+  snap('33333','Snoopy','12 Apple St.','555-1234').
+  csg('CS101','12345','A').
+  csg('CS101','22222','B').
+  csg('CS101','33333','C').
+  csg('EE200','12345','B+').
+  csg('EE200','22222','B').
 
 Rules:
-     Day(x,y,z) :- meal('breakfast', x, a), meal('lunch', y, b), meal('dinner', z, c).
-     Grocery(food) :- meal(r, food, s).
-     Grocery(food) :- meal(r, s, food).
+  cn(c,n) :- snap(S,n,A,P),csg(c,S,G).
+  ncg(n,c,g) :- snap(S,n,A,P),csg(c,S,g).
 
 Queries:
-     Day(same, same, same)?
-     Grocery('broccoli')?
+  cn('CS101',Name)?
+  ncg('Snoopy',Course,Grade)?

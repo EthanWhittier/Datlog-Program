@@ -277,8 +277,9 @@ void Interpreter::EvaluateRules() {
 
            }
             relationFromRule = JoinMultiple();
+            
                
-               //ProjectHeadPred
+            //ProjectHeadPred
             for(unsigned int z = 0; z < relationFromRule.scheme.size(); z++) {
                    
                  for(unsigned int k = 0; k < datalog.rules.at(i).headPred.paramList.size(); k++) {
@@ -310,7 +311,8 @@ void Interpreter::EvaluateRules() {
     }
 
     
-
+        
+        
 
 }
 
