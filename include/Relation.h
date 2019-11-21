@@ -28,15 +28,18 @@ class Relation {
 		Relation Select1(int posistion, string value);
         Relation Select2(int position1, int posistion2);
         Relation Project(vector<unsigned int> columns);
+        Relation ProjectHeadPred(Relation ruleRelation);
         Relation Join(Relation relation2);
+        Relation Unite(Relation relation2);
         void Rename(vector<string>queryP, unordered_map<string, int> newColumns);
 		std::string relationName;
 		set<Tuple> Tuples;
+        Scheme scheme;
         
 
     private:
 
-        Scheme scheme;
+        
         vector<unsigned int> columns;
         map<string, int> newColumns;
         bool isJoinable(Relation relation2);
@@ -44,6 +47,7 @@ class Relation {
         void GetAttributeInBoth(Relation relation2);
         Relation CrossProduct(Relation relation2);
         Tuple CombineTuples(Relation relation2);
+
         vector<pair<int, int>> equalColumns;
         set<Tuple>::iterator it;
 		set<Tuple>::iterator ptr;

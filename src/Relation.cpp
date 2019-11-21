@@ -324,4 +324,38 @@ void Relation::Rename(vector<string>queryP, unordered_map<string, int>newColumns
 		return joinedRelation;
 
 	}
+
+	Relation Relation::Unite(Relation relation2) {
+
+		Relation unitedRelation;
+
+		if(scheme == relation2.scheme) {
+
+			
+			unitedRelation.scheme = scheme;
+
+			for(it = Tuples.begin(); it != Tuples.end(); it++) {
+
+				unitedRelation.addTuple(*it);
+
+			}
+
+			for(ptr = relation2.Tuples.begin(); ptr != relation2.Tuples.end(); ptr++) {
+				unitedRelation.addTuple(*ptr);
+			}
+
+		}
+
+		return unitedRelation;
+	}
 	
+
+	Relation Relation::ProjectHeadPred(Relation ruleRelation) {
+
+		for(unsigned int i = 0; i < ruleRelation.scheme.size(); i++) {
+			
+		}
+
+
+
+	}

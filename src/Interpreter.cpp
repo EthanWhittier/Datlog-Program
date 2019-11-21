@@ -6,7 +6,6 @@ Interpreter::Interpreter(DatalogProgram datalog) {
     this->datalog = datalog;
 
 
-
 	for (unsigned int i = 0; i < datalog.predicateSchemes.size(); i++) {
 
 		string name = datalog.predicateSchemes.at(i).name;
@@ -263,18 +262,43 @@ void Interpreter::EvaluateRulePred(string relationName, vector<string>paramList)
 void Interpreter::EvaluateRules() {
 
     bool tuplesAdded = true;
-
+    
 
 
     while(tuplesAdded) {
 
         tuplesBeforeRules = TupleCount();
 
-        for(int i = 0; i < datalog.rules.size(); i++) {
+        for(unsigned int i = 0; i < datalog.rules.size(); i++) {
 
-           for(int j = 0; j < datalog.rules.at(i).rulePred.size(); j++) {
+           for(unsigned int j = 0; j < datalog.rules.at(i).rulePred.size(); j++) {
 
                EvaluateRulePred(datalog.rules.at(i).rulePred.at(j).name, datalog.rules.at(i).rulePred.at(j).paramList);
+               relationFromRule = JoinMultiple();
+               
+               //ProjectHeadPred
+               for(unsigned int i = 0; i < relationFromRule.scheme.size(); i++) {
+                   
+                   for(unsigned int j = 0; j < datalog.rules.at(i).headPred.paramList.size(); j++) {
+
+                       if(relationFromRule.scheme.at(i) == datalog.rules.at(i).headPred.paramList.at(j)) {
+                           columns.push_back(i);
+                           break;
+                       }
+
+                   }
+               }
+
+               relationFromRule.Project(columns);
+               columns.clear();
+
+               ptr = database.find(relationFromRule.relationName);
+               relationFromRule.scheme = ptr->second
+
+               
+                
+                
+
 
 
            }
@@ -297,11 +321,14 @@ void Interpreter::EvaluateRules() {
 Relation Interpreter::JoinMultiple() {
 
 
-    for(unsigned int i = 0; i < ruleAnswers.size(); i++) {
+    for(unsigned int i = 0; i < ruleAnswers.size() - 1; i++) {
 
-        
+        ruleAnswers.at(i + 1) = ruleAnswers.at(i).Join(ruleAnswers.at(i + 1));
+
 
     }
+    
+    return ruleAnswers.at(ruleAnswers.size() - 1);
 
 }
 
@@ -323,3 +350,15 @@ int Interpreter::TupleCount() {
 
 
 }
+
+Relation Interpreter::ProjectHeadPred() {
+
+		for(unsigned int i = 0; i < relationFromRule.scheme.size(); i++) {
+            
+            
+
+		}
+
+
+
+	}

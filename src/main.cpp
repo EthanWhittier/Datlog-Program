@@ -15,8 +15,8 @@ Scheme1.push_back("A");
 Scheme1.push_back("B");
 //Scheme1.push_back("Fish");
 Scheme Scheme2;
-Scheme2.push_back("C");
-Scheme2.push_back("D");
+Scheme2.push_back("A");
+Scheme2.push_back("B");
 //Scheme2.push_back("Bird");
 //Scheme2.push_back("Bunny");
 
@@ -29,11 +29,11 @@ Tuple1.push_back("1");
 //Tuple1.push_back("5");
 Tuple Tuple2;
 Tuple2.push_back("2");
-Tuple2.push_back("3");
+Tuple2.push_back("2");
 //Tuple2.push_back("1");
 Tuple Tuple3;
-Tuple3.push_back("4");
-Tuple3.push_back("1");
+Tuple3.push_back("2");
+Tuple3.push_back("3");
 //Tuple3.push_back("2");
 /*Tuple Tuple4;
 Tuple4.push_back("3");
@@ -52,26 +52,26 @@ Relation1.addTuple(Tuple3);
 
 
 Tuple tuple1;
-tuple1.push_back("1");
-tuple1.push_back("1");
+tuple1.push_back("2");
+tuple1.push_back("2");
 //tuple1.push_back("2");
 //tuple1.push_back("4");
 Tuple tuple2;
-tuple2.push_back("1");
-tuple2.push_back("5");
+tuple2.push_back("2");
+tuple2.push_back("3");
 //tuple2.push_back("9");
 //tuple2.push_back("2");
-/*Tuple tuple3;
+Tuple tuple3;
 tuple3.push_back("4");
-tuple3.push_back("3");
 tuple3.push_back("2");
-tuple3.push_back("7");
+//tuple3.push_back("2");
+//tuple3.push_back("7");
 Tuple tuple4;
-tuple4.push_back("1");
 tuple4.push_back("5");
-tuple4.push_back("2");
-tuple4.push_back("4");
-Tuple tuple5;
+tuple4.push_back("5");
+//tuple4.push_back("2");
+//uple4.push_back("4");
+/*Tuple tuple5;
 tuple5.push_back("1");
 tuple5.push_back("5");
 tuple5.push_back("8");
@@ -80,12 +80,12 @@ tuple5.push_back("3");*/
 
 Relation2.addTuple(tuple1);
 Relation2.addTuple(tuple2);
-/*Relation2.addTuple(tuple3);
+Relation2.addTuple(tuple3);
 Relation2.addTuple(tuple4);
-Relation2.addTuple(tuple5);*/
+//Relation2.addTuple(tuple5);
 
 
-Relation1 = Relation1.Join(Relation2);
+Relation1 = Relation1.Unite(Relation2);
 
 Relation1.toString();
 
