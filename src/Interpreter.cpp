@@ -301,6 +301,7 @@ void Interpreter::EvaluateRules() {
             ptr = database.find(relationFromRule.relationName);
             relationFromRule.scheme = ptr->second.scheme;
             ptr->second = ptr->second.Unite(relationFromRule);
+            ruleAnswers.clear();
             
 
         }
