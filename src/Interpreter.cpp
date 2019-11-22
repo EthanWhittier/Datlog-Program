@@ -271,11 +271,13 @@ void Interpreter::EvaluateRules() {
 
         for(unsigned int i = 0; i < datalog.rules.size(); i++) {
 
+           
            for(unsigned int j = 0; j < datalog.rules.at(i).rulePred.size(); j++) {
 
-               EvaluateRulePred(datalog.rules.at(i).headPred.name, datalog.rules.at(i).rulePred.at(j).paramList);
+               EvaluateRulePred(datalog.rules.at(i).rulePred.at(j).name, datalog.rules.at(i).rulePred.at(j).paramList);
 
            }
+            
             relationFromRule = JoinMultiple();
             
                
@@ -295,6 +297,7 @@ void Interpreter::EvaluateRules() {
             relationFromRule = relationFromRule.Project(columns, shouldSort);
             columns.clear();
 
+            relationFromRule.relationName = datalog.rules.at(i).headPred.name;
             ptr = database.find(relationFromRule.relationName);
             relationFromRule.scheme = ptr->second.scheme;
             ptr->second = ptr->second.Unite(relationFromRule);
