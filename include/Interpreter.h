@@ -38,6 +38,7 @@ class Interpreter {
         vector<Relation> ruleAnswers;
         vector<unsigned int> columns;
 		void toStringQuery();
+        void toStringRuleEval();
         void toStringRule();
         Relation relationFromRule;
         

@@ -143,7 +143,7 @@ void Interpreter::EvaluateQueries() {
 
 void Interpreter::toStringQuery() {
 
-
+    cout << "Query Evaluation" << endl;
 	for (unsigned int i = 0; i < queryAnswers.size(); i++) {
 
 		cout << datalog.predicateQueries.at(i).name << "(";
@@ -291,7 +291,7 @@ void Interpreter::EvaluateRules() {
                         columns.push_back(k);
                         break;
                     }
-//FIXME
+
                 }
             }
             bool shouldSort = false;
@@ -315,6 +315,12 @@ void Interpreter::EvaluateRules() {
     
     }
 
+    cout << "Rule Evaluation" << endl;
+    toStringRuleEval();
+    toStringRule();
+    cout << endl;
+    cout << "Schemes populated after " << numberOfPasses << " passes through the Rules." << endl; 
+    cout << endl;
     
 }
 
@@ -352,6 +358,50 @@ int Interpreter::TupleCount() {
 
 }
 
+void Interpreter::toStringRuleEval() {
+
+    for(unsigned int i = 0; i < datalog.rules.size(); i++) {
+
+        //Rule Head Predicate
+        cout << datalog.rules.at(i).headPred.name << "(";
+        for(unsigned int j = 0; j < datalog.rules.at(i).headPred.paramList.size() - 1 ; j++) {
+            cout << datalog.rules.at(i).headPred.paramList.at(j) << ",";
+
+        }
+        cout << datalog.rules.at(i).headPred.paramList.at(datalog.rules.at(i).headPred.paramList.size() - 1);
+        cout << ")";
+
+        cout << " :- ";
+
+        
+        for(unsigned int j = 0; j < datalog.rules.at(i).rulePred.size() - 1; j++) {
+            cout << datalog.rules.at(i).rulePred.at(j).name;
+            cout << "(";
+            for(unsigned int z = 0; z < datalog.rules.at(i).rulePred.at(j).paramList.size() - 1; z++) {
+
+                cout << datalog.rules.at(i).rulePred.at(j).paramList.at(z) << ",";
+            }
+            cout << datalog.rules.at(i).rulePred.at(j).paramList.at(datalog.rules.at(i).rulePred.at(j).paramList.size() - 1);
+            cout << "),";
+        }
+
+        cout << datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).name;
+        cout << "(";
+        for(unsigned int z = 0; z < datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).paramList.size() - 1; z++) {
+
+             cout << datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).paramList.at(z) << ",";
+         }
+        cout << datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).paramList.at(datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).paramList.size() - 1);
+        cout << ")";   
+        cout << endl;
+        cout << endl;
+        ptr = database.find(datalog.rules.at(i).headPred.name);
+        ptr->second.toString();
+
+    }
+
+}
+
 void Interpreter::toStringRule() {
 
     for(unsigned int i = 0; i < datalog.rules.size(); i++) {
@@ -367,15 +417,34 @@ void Interpreter::toStringRule() {
 
         cout << " :- ";
 
-        for(unsigned int j = 0; j < )
+       
+        for(unsigned int j = 0; j < datalog.rules.at(i).rulePred.size() - 1; j++) {
+            
+            cout << datalog.rules.at(i).rulePred.at(j).name;
+            cout << "(";
+            for(unsigned int z = 0; z < datalog.rules.at(i).rulePred.at(j).paramList.size() - 1; z++) {
+
+                cout << datalog.rules.at(i).rulePred.at(j).paramList.at(z) << ",";
+            }
+            cout << datalog.rules.at(i).rulePred.at(j).paramList.at(datalog.rules.at(i).rulePred.at(j).paramList.size() - 1);
+            cout << "),";
+        }
 
 
+        cout << datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).name;
+        cout << "(";
+        for(unsigned int z = 0; z < datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).paramList.size() - 1; z++) {
+
+             cout << datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).paramList.at(z) << ",";
+         }
+        cout << datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).paramList.at(datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).paramList.size() - 1);
+        cout << ")";   
+        cout << endl;
 
 
     }
-
-
-
 }
+
+
 
 
