@@ -28,6 +28,7 @@ class Relation {
 		Relation Select1(int posistion, string value);
         Relation Select2(int position1, int posistion2);
         Relation Project(vector<unsigned int> columns);
+        Relation Project(vector<unsigned int> columns, bool shouldSort);
         Relation Join(Relation relation2);
         Relation Unite(Relation relation2);
         void Rename(vector<string>queryP, unordered_map<string, int> newColumns);

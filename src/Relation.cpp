@@ -348,6 +348,46 @@ void Relation::Rename(vector<string>queryP, unordered_map<string, int>newColumns
 
 		return unitedRelation;
 	}
+
+
+	Relation Relation::Project(vector<unsigned int> columns, bool shouldSort) {
+
+
+	if (columns.empty()) {
+
+	}
+
+	//sort(columns.begin(), columns.end());
+
+    for (unsigned int i = 0; i < columns.size(); i++) {
+        this->columns.push_back(columns.at(i));
+    }
+
+    Scheme newScheme;
+	for (unsigned int i = 0; i < columns.size(); i++) {
+
+		for (unsigned int j = 0; j < scheme.size(); j++) {
+			if (j == columns.at(i)) {
+				newScheme.push_back(scheme.at(j));
+				break;
+			}
+		}
+  }
+
+
+	Relation newRelation(relationName, newScheme);
+	set<Tuple>::iterator it;
+	for (it = Tuples.begin(); it != Tuples.end(); it++) {
+		Tuple tup;
+		for (unsigned int i = 0; i < columns.size(); i++) {
+			tup.push_back(it->at(columns.at(i)));
+		}
+		newRelation.addTuple(tup);
+	}
+
+	return newRelation;
+
+}
 	
 
 	
