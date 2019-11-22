@@ -280,19 +280,19 @@ void Interpreter::EvaluateRules() {
             
                
             //ProjectHeadPred
-            for(unsigned int z = 0; z < relationFromRule.scheme.size(); z++) {
+            for(unsigned int z = 0; z < datalog.rules.at(i).headPred.paramList.size(); z++) {
                    
-                 for(unsigned int k = 0; k < datalog.rules.at(i).headPred.paramList.size(); k++) {
+                 for(unsigned int k = 0; k < relationFromRule.scheme.size(); k++) {
 
-                    if(relationFromRule.scheme.at(z) == datalog.rules.at(i).headPred.paramList.at(k)) {
-                        columns.push_back(i);
+                    if(relationFromRule.scheme.at(k) == datalog.rules.at(i).headPred.paramList.at(z)) {
+                        columns.push_back(k);
                         break;
                     }
-
+//FIXME
                 }
             }
 
-            relationFromRule.Project(columns);
+            relationFromRule = relationFromRule.Project(columns);
             columns.clear();
 
             ptr = database.find(relationFromRule.relationName);
