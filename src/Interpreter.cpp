@@ -394,7 +394,6 @@ void Interpreter::toStringRuleEval() {
         cout << datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).paramList.at(datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).paramList.size() - 1);
         cout << ")";   
         cout << endl;
-        cout << endl;
         ptr = database.find(datalog.rules.at(i).headPred.name);
         ptr->second.toString();
 
@@ -407,6 +406,11 @@ void Interpreter::toStringRule() {
     for(unsigned int i = 0; i < datalog.rules.size(); i++) {
 
         //Rule Head Predicate
+        ptr = database.find(datalog.rules.at(i).headPred.name);
+        if(ptr->second.Tuples.empty()) {
+            continue;
+        }
+        
         cout << datalog.rules.at(i).headPred.name << "(";
         for(unsigned int j = 0; j < datalog.rules.at(i).headPred.paramList.size() - 1 ; j++) {
             cout << datalog.rules.at(i).headPred.paramList.at(j) << ",";
