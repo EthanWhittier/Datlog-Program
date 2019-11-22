@@ -267,6 +267,7 @@ void Interpreter::EvaluateRules() {
 
     while(tuplesAdded) {
 
+        numberOfPasses++;
         tuplesBeforeRules = TupleCount();
 
         for(unsigned int i = 0; i < datalog.rules.size(); i++) {
@@ -315,9 +316,6 @@ void Interpreter::EvaluateRules() {
     }
 
     
-        
-        
-
 }
 
 
@@ -350,6 +348,32 @@ int Interpreter::TupleCount() {
     }
 
     return tup;
+
+
+}
+
+void Interpreter::toStringRule() {
+
+    for(unsigned int i = 0; i < datalog.rules.size(); i++) {
+
+        //Rule Head Predicate
+        cout << datalog.rules.at(i).headPred.name << "(";
+        for(unsigned int j = 0; j < datalog.rules.at(i).headPred.paramList.size() - 1 ; j++) {
+            cout << datalog.rules.at(i).headPred.paramList.at(j) << ",";
+
+        }
+        cout << datalog.rules.at(i).headPred.paramList.at(datalog.rules.at(i).headPred.paramList.size() - 1);
+        cout << ")";
+
+        cout << " :- ";
+
+        for(unsigned int j = 0; j < )
+
+
+
+
+    }
+
 
 
 }

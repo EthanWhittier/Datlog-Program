@@ -28,6 +28,7 @@ class Interpreter {
         int TupleCount();
         int tuplesBeforeRules = 0;
         int tuplesAfterRules = 0;
+        int numberOfPasses = 0;
         string relationName;
         string parameter;
         map<string, Relation>::iterator ptr;
@@ -37,6 +38,7 @@ class Interpreter {
         vector<Relation> ruleAnswers;
         vector<unsigned int> columns;
 		void toStringQuery();
+        void toStringRule();
         Relation relationFromRule;
         
 
