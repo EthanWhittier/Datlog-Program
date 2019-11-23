@@ -40,6 +40,7 @@ class Interpreter {
 		void toStringQuery();
         void toStringRuleEval();
         void toStringRule();
+        vector<Relation> evaluatedRules;
         Relation relationFromRule;
         
 

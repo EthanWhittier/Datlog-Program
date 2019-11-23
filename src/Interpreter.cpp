@@ -302,6 +302,7 @@ void Interpreter::EvaluateRules() {
             ptr = database.find(relationFromRule.relationName);
             relationFromRule.scheme = ptr->second.scheme;
             ptr->second = ptr->second.Unite(relationFromRule);
+            evaluatedRules.push_back(relationFromRule);
             ruleAnswers.clear();
             
 
@@ -392,10 +393,9 @@ void Interpreter::toStringRuleEval() {
              cout << datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).paramList.at(z) << ",";
          }
         cout << datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).paramList.at(datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).paramList.size() - 1);
-        cout << ")";   
+        cout << ").";   
         cout << endl;
-        ptr = database.find(datalog.rules.at(i).headPred.name);
-        ptr->second.toString();
+        evaluatedRules.at(i).toString();
 
     }
 
@@ -442,7 +442,7 @@ void Interpreter::toStringRule() {
              cout << datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).paramList.at(z) << ",";
          }
         cout << datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).paramList.at(datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).paramList.size() - 1);
-        cout << ")";   
+        cout << ").";   
         cout << endl;
 
 
