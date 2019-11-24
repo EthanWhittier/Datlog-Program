@@ -264,7 +264,7 @@ void Interpreter::EvaluateRules() {
     bool tuplesAdded = true;
     
 
-    cout << "Rule Evalutaion" << endl;
+    cout << "Rule Evaluation" << endl;
     while(tuplesAdded) {
 
         numberOfPasses++;
