@@ -264,7 +264,7 @@ void Interpreter::EvaluateRules() {
     bool tuplesAdded = true;
     
 
-
+    cout << "Rule Evalutaion" << endl;
     while(tuplesAdded) {
 
         numberOfPasses++;
@@ -301,11 +301,13 @@ void Interpreter::EvaluateRules() {
             relationFromRule.relationName = datalog.rules.at(i).headPred.name;
             ptr = database.find(relationFromRule.relationName);
             relationFromRule.scheme = ptr->second.scheme;
+            toStringRuleEval(i);
+            Relation temp;
+            temp = checkTuples(i);
+            temp.toString();
             ptr->second = ptr->second.Unite(relationFromRule);
-            evaluatedRules.push_back(relationFromRule);
             ruleAnswers.clear();
-            
-
+        
         }
 
         tuplesAfterRules = TupleCount();
@@ -316,9 +318,6 @@ void Interpreter::EvaluateRules() {
     
     }
 
-    cout << "Rule Evaluation" << endl;
-    toStringRuleEval();
-    toStringRule();
     cout << endl;
     cout << "Schemes populated after " << numberOfPasses << " passes through the Rules." << endl; 
     cout << endl;
@@ -359,9 +358,8 @@ int Interpreter::TupleCount() {
 
 }
 
-void Interpreter::toStringRuleEval() {
+void Interpreter::toStringRuleEval(int i) {
 
-    for(unsigned int i = 0; i < datalog.rules.size(); i++) {
 
         //Rule Head Predicate
         cout << datalog.rules.at(i).headPred.name << "(";
@@ -395,59 +393,48 @@ void Interpreter::toStringRuleEval() {
         cout << datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).paramList.at(datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).paramList.size() - 1);
         cout << ").";   
         cout << endl;
-        evaluatedRules.at(i).toString();
-
-    }
+        
+    
 
 }
 
-void Interpreter::toStringRule() {
+Relation Interpreter::checkTuples(int i) {
 
-    for(unsigned int i = 0; i < datalog.rules.size(); i++) {
+    Relation newRel;
+    newRel.scheme = relationFromRule.scheme;
+    ptr = database.find(datalog.rules.at(i).headPred.name);
 
-        //Rule Head Predicate
-        ptr = database.find(datalog.rules.at(i).headPred.name);
-        if(ptr->second.Tuples.empty()) {
-            continue;
-        }
-        
-        cout << datalog.rules.at(i).headPred.name << "(";
-        for(unsigned int j = 0; j < datalog.rules.at(i).headPred.paramList.size() - 1 ; j++) {
-            cout << datalog.rules.at(i).headPred.paramList.at(j) << ",";
-
-        }
-        cout << datalog.rules.at(i).headPred.paramList.at(datalog.rules.at(i).headPred.paramList.size() - 1);
-        cout << ")";
-
-        cout << " :- ";
-
+    set<Tuple>::iterator it;
+    set<Tuple>::iterator tup;
+    bool add = true;
+    for (it = relationFromRule.Tuples.begin(); it != relationFromRule.Tuples.end(); it++) {
        
-        for(unsigned int j = 0; j < datalog.rules.at(i).rulePred.size() - 1; j++) {
-            
-            cout << datalog.rules.at(i).rulePred.at(j).name;
-            cout << "(";
-            for(unsigned int z = 0; z < datalog.rules.at(i).rulePred.at(j).paramList.size() - 1; z++) {
+        for(tup = ptr->second.Tuples.begin(); tup != ptr->second.Tuples.end(); tup++) {
 
-                cout << datalog.rules.at(i).rulePred.at(j).paramList.at(z) << ",";
+            if(*it == *tup) {
+                add = false;
+                break;
             }
-            cout << datalog.rules.at(i).rulePred.at(j).paramList.at(datalog.rules.at(i).rulePred.at(j).paramList.size() - 1);
-            cout << "),";
+            
         }
 
+        if(add) {
+            newRel.addTuple(*it);
+        }
 
-        cout << datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).name;
-        cout << "(";
-        for(unsigned int z = 0; z < datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).paramList.size() - 1; z++) {
-
-             cout << datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).paramList.at(z) << ",";
-         }
-        cout << datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).paramList.at(datalog.rules.at(i).rulePred.at(datalog.rules.at(i).rulePred.size() - 1).paramList.size() - 1);
-        cout << ").";   
-        cout << endl;
-
+        add = true;
 
     }
+
+    return newRel;
+
 }
+
+
+
+
+
+
 
 
 

@@ -26,6 +26,7 @@ class Interpreter {
         Relation JoinMultiple();
         bool isConstant(string parameter);
         int TupleCount();
+        Relation checkTuples(int i);
         int tuplesBeforeRules = 0;
         int tuplesAfterRules = 0;
         int numberOfPasses = 0;
@@ -38,8 +39,8 @@ class Interpreter {
         vector<Relation> ruleAnswers;
         vector<unsigned int> columns;
 		void toStringQuery();
-        void toStringRuleEval();
-        void toStringRule();
+        void toStringRuleEval(int i);
+        void toStringNewTuples();
         vector<Relation> evaluatedRules;
         Relation relationFromRule;
         
