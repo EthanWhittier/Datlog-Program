@@ -1,15 +1,16 @@
 #include <Node.h>
 
 
+Node::Node() {
 
-Node::Node(int ruleNumber) {
+}
+
+Node::Node(unsigned int ruleNumber) {
 
     nodeId = ruleNumber;
     visited = false;
 
 }
-
-
 
 
 int Node::getNodeID() {

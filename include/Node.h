@@ -12,23 +12,18 @@ using namespace std;
 class Node {
 
     public:
-    Node(int ruleNumber);
+    Node();
+    Node(unsigned int ruleNumber);
     int getNodeID();
     bool isVisited();
     int getPostOrder();
-    set<int> dependencies;
+    set<unsigned int> dependencies;
 
 
     private:
     int nodeId;
     bool visited;
     int postOrder;
-
-
-
-
-
-
 
 };
 

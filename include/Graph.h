@@ -17,7 +17,7 @@ class Graph {
 
     public:
     Graph();
-    string toString();
+    void toString();
     void DepthFirstSearch();
     void DepthFirstForest();
     map<int, Node> graph;

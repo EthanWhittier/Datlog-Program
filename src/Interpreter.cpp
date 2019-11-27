@@ -34,17 +34,12 @@ Interpreter::Interpreter(DatalogProgram datalog) {
         it->second.addTuple(tuple);
     }
 
-    map<string, Relation>::iterator it;
-    for (it = database.begin(); it != database.end(); it++) {
 
-        
-        //Create Nodes
-        for(unsigned int i = 0; i < datalog.rules.size(); i++) {
-            Node newNode(i);
-            forwardGraph.graph.insert({i, newNode});
-        }
-
-    }
+    //Create Nodes
+    for(unsigned int i = 0; i < datalog.rules.size(); i++) {
+        Node newNode(i);
+        forwardGraph.graph.insert({i, newNode});
+     }
 }
 
 bool Interpreter::isConstant(string parameter) {
@@ -269,7 +264,9 @@ void Interpreter::EvaluateRulePred(string relationName, vector<string>paramList)
 void Interpreter::EvaluateRules() {
 
     bool tuplesAdded = true;
-    
+    CreateDependancies();
+    forwardGraph.toString();
+
 
     cout << "Rule Evaluation" << endl;
     while(tuplesAdded) {
