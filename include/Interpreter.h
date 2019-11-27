@@ -4,6 +4,8 @@
 #include "DatalogProgram.h"
 #include "Relation.h"
 #include "Database.h"
+#include "Node.h"
+#include "Graph.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -27,6 +29,7 @@ class Interpreter {
         bool isConstant(string parameter);
         int TupleCount();
         Relation checkTuples(int i);
+        void CreateDependancies();
         int tuplesBeforeRules = 0;
         int tuplesAfterRules = 0;
         int numberOfPasses = 0;
@@ -43,6 +46,7 @@ class Interpreter {
         void toStringNewTuples();
         vector<Relation> evaluatedRules;
         Relation relationFromRule;
+        Graph forwardGraph;
         
 
 };

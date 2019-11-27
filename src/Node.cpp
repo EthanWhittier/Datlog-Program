@@ -2,21 +2,12 @@
 
 
 
+Node::Node(int ruleNumber) {
 
+    nodeId = ruleNumber;
+    visited = false;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+}
 
 
 

@@ -37,7 +37,12 @@ Interpreter::Interpreter(DatalogProgram datalog) {
     map<string, Relation>::iterator it;
     for (it = database.begin(); it != database.end(); it++) {
 
-        //it->second.toString();
+        
+        //Create Nodes
+        for(unsigned int i = 0; i < datalog.rules.size(); i++) {
+            Node newNode(i);
+            forwardGraph.graph.insert({i, newNode});
+        }
 
     }
 }
@@ -259,6 +264,8 @@ void Interpreter::EvaluateRulePred(string relationName, vector<string>paramList)
 }
 
 
+
+
 void Interpreter::EvaluateRules() {
 
     bool tuplesAdded = true;
@@ -427,6 +434,31 @@ Relation Interpreter::checkTuples(int i) {
     }
 
     return newRel;
+
+}
+
+//Graph Functions
+
+void Interpreter::CreateDependancies() {
+
+    for(unsigned int i = 0; i < datalog.rules.size(); i++) {
+
+        for(unsigned int j = 0; j < datalog.rules.at(i).rulePred.size(); j++) {
+
+           for(unsigned int z = 0; z < datalog.rules.size(); z++) {
+
+               if(datalog.rules.at(i).rulePred.at(j).name == datalog.rules.at(z).headPred.name) {
+
+                   forwardGraph.graph[i].dependencies.insert(z);
+
+               }
+
+           }
+
+        }
+
+    }
+
 
 }
 

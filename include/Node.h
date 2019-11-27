@@ -12,7 +12,7 @@ using namespace std;
 class Node {
 
     public:
-    Node();
+    Node(int ruleNumber);
     int getNodeID();
     bool isVisited();
     int getPostOrder();

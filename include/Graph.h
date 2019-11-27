@@ -8,6 +8,7 @@
 #include <map>
 
 
+
 using namespace std;
 
 
@@ -16,6 +17,9 @@ class Graph {
 
     public:
     Graph();
+    string toString();
+    void DepthFirstSearch();
+    void DepthFirstForest();
     map<int, Node> graph;
 
 
