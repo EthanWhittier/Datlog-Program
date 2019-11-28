@@ -10,6 +10,8 @@
 #include <vector>
 #include <map>
 #include <set>
+#include <algorithm>
+#include <set>
 
 using namespace std;
 
@@ -34,6 +36,7 @@ class Interpreter {
         int tuplesBeforeRules = 0;
         int tuplesAfterRules = 0;
         int numberOfPasses = 0;
+        bool oneLoop;
         string relationName;
         string parameter;
         map<string, Relation>::iterator ptr;

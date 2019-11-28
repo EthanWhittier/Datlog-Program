@@ -23,14 +23,23 @@ void Graph::DepthFirstForest(bool order) {
    else {
        int nodeToVisit = postOrderList.size();
        for(unsigned int i = 0; i < postOrderList.size(); i++) {
+          
            for(unsigned int j = 0; j < postOrderList.size(); j++) {
+              
                if(postOrderList.at(j) == nodeToVisit) {
+                  
                   if(!graph[j].isVisited()) {
-                   scc.clear();
-                   DepthFirstSearch(j, false);
-                   SCC.push_back(scc);
-                   nodeToVisit--;
-                   break;
+                    
+                    scc.clear();
+                    DepthFirstSearch(j, false);
+                    sort(scc.begin(), scc.end());
+                    SCC.push_back(scc);
+                    nodeToVisit--;
+                    break;
+
+                  }
+                  else {
+                      nodeToVisit--;
                   }
                }
            }
@@ -53,7 +62,6 @@ void Graph::DepthFirstSearch(int i, bool add) {
         if(graph[*it].isVisited() == false) {
            
             DepthFirstSearch(*it, add);
-            
         }
 
     }
@@ -63,15 +71,13 @@ void Graph::DepthFirstSearch(int i, bool add) {
     }
     
     
-
-
 }
 
 
 
 void Graph::toString() {
 
-    cout << "Dependancy Graph:" << endl;
+    cout << "Dependency Graph" << endl;
     
     map<int, Node>::iterator it;
     set<unsigned int>::iterator ptr;

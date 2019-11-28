@@ -271,6 +271,7 @@ void Interpreter::EvaluateRules() {
     
     CreateDependancies();
     forwardGraph.toString();
+    cout << endl;
     CreateReverseDependancies();
     
     reverseGraph.DepthFirstForest(first);
@@ -279,72 +280,130 @@ void Interpreter::EvaluateRules() {
     forwardGraph.postOrderList = reverseGraph.postOrderList;
 
     forwardGraph.DepthFirstForest(false);
-    cout << "Strongly Connected Components:" << endl;
-    for(unsigned int i = 0; i < reverseGraph.SCC.size(); i++) {
-        for(unsigned int j = 0; j < reverseGraph.SCC.at(i).size(); j++) {
-            cout << "R" << reverseGraph.SCC.at(i).at(j) << ",";
-        }
-    }
     
-
-
+    
     cout << "Rule Evaluation" << endl;
-    while(tuplesAdded) {
 
-        numberOfPasses++;
-        tuplesBeforeRules = TupleCount();
+    vector<vector<int>>::iterator it;
+    for(it = forwardGraph.SCC.begin(); it != forwardGraph.SCC.end(); it++) {
+        
+        cout << "SCC: ";
+        for(unsigned int i = 0; i < it->size(); i++) {
+            if(i == it->size() - 1) {
+                cout << "R" << it->at(i);
+            }
+            else {
+                cout << "R" << it->at(i) << ",";
+            }
+        }
+        cout << endl;
 
-        for(unsigned int i = 0; i < datalog.rules.size(); i++) {
+        while(tuplesAdded) {
 
-           
-           for(unsigned int j = 0; j < datalog.rules.at(i).rulePred.size(); j++) {
-
-               EvaluateRulePred(datalog.rules.at(i).rulePred.at(j).name, datalog.rules.at(i).rulePred.at(j).paramList);
-
-           }
+            numberOfPasses++;
+            tuplesBeforeRules = TupleCount();
             
-            relationFromRule = JoinMultiple();
+
+            for(unsigned int i = 0; i < it->size(); i++) {
+           
+            oneLoop = false;
+           
+            if(forwardGraph.graph[it->at(i)].dependencies.empty() || forwardGraph.graph[it->at(i)].dependencies.size() == 1) {
+                if(forwardGraph.graph[it->at(i)].dependencies.size() == 1) {
+                    
+                    set<unsigned int>::iterator iter;
+                    iter = forwardGraph.graph[it->at(i)].dependencies.begin();
+                    
+                    const unsigned int id = forwardGraph.graph[it->at(i)].getNodeID();
+                   
+                    if(id != *iter) {
+                        oneLoop = true;
+                    }
+                 }
+                
+                else {
+                    oneLoop = true;
+                }
+
+            }
+           
+            for(unsigned int j = 0; j < datalog.rules.at(it->at(i)).rulePred.size(); j++) {
+
+                EvaluateRulePred(datalog.rules.at(it->at(i)).rulePred.at(j).name, datalog.rules.at(it->at(i)).rulePred.at(j).paramList);
+
+            }
+            
+                relationFromRule = JoinMultiple();
             
                
             //ProjectHeadPred
-            for(unsigned int z = 0; z < datalog.rules.at(i).headPred.paramList.size(); z++) {
+                for(unsigned int z = 0; z < datalog.rules.at(it->at(i)).headPred.paramList.size(); z++) {
                    
-                 for(unsigned int k = 0; k < relationFromRule.scheme.size(); k++) {
+                    for(unsigned int k = 0; k < relationFromRule.scheme.size(); k++) {
 
-                    if(relationFromRule.scheme.at(k) == datalog.rules.at(i).headPred.paramList.at(z)) {
-                        columns.push_back(k);
-                        break;
+                        if(relationFromRule.scheme.at(k) == datalog.rules.at(it->at(i)).headPred.paramList.at(z)) {
+                            columns.push_back(k);
+                            break;
+                        }
+
                     }
-
                 }
-            }
-            bool shouldSort = false;
-            relationFromRule = relationFromRule.Project(columns, shouldSort);
-            columns.clear();
+                bool shouldSort = false;
+                relationFromRule = relationFromRule.Project(columns, shouldSort);
+                columns.clear();
 
-            relationFromRule.relationName = datalog.rules.at(i).headPred.name;
-            ptr = database.find(relationFromRule.relationName);
-            relationFromRule.scheme = ptr->second.scheme;
-            toStringRuleEval(i);
-            Relation temp;
-            temp = checkTuples(i);
-            temp.toString();
-            ptr->second = ptr->second.Unite(relationFromRule);
-            ruleAnswers.clear();
+                relationFromRule.relationName = datalog.rules.at(it->at(i)).headPred.name;
+                ptr = database.find(relationFromRule.relationName);
+                relationFromRule.scheme = ptr->second.scheme;
+
+                Relation temp;
+                temp = checkTuples(it->at(i));
+                
+                toStringRuleEval(it->at(i));
+                
+                temp.toString();
+
+                ptr->second = ptr->second.Unite(relationFromRule);
+                ruleAnswers.clear();
+
+                
         
+            }
+
+            if(oneLoop) {
+                break;
+            }
+
+            tuplesAfterRules = TupleCount();
+
+            if(tuplesBeforeRules == tuplesAfterRules) {
+                tuplesAdded = false;
+            }
+
+            
+            
+            
+        }
+        
+        cout << numberOfPasses << " passes: ";
+        
+        for(unsigned int i = 0; i < it->size(); i++) {
+             if(i == it->size() - 1) {
+                cout << "R" << it->at(i);
+            }
+            else {
+                cout << "R" << it->at(i) << ",";
+            }
         }
 
-        tuplesAfterRules = TupleCount();
-
-        if(tuplesBeforeRules == tuplesAfterRules) {
-            tuplesAdded = false;
-        }
-    
+        cout << endl;
+        numberOfPasses = 0;
+        tuplesAdded = true;
+        
     }
 
     cout << endl;
-    cout << "Schemes populated after " << numberOfPasses << " passes through the Rules." << endl; 
-    cout << endl;
+    
     
 }
 
