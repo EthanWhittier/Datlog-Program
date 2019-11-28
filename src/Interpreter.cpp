@@ -271,7 +271,12 @@ void Interpreter::EvaluateRules() {
     forwardGraph.toString();
     CreateReverseDependancies();
     cout << endl << endl;
-    reverseGraph.toString();
+    //reverseGraph.toString();
+
+    reverseGraph.DepthFirstForest();
+    for(unsigned int i = 0; i < reverseGraph.postOrderList.size(); i++) {
+        cout << reverseGraph.postOrderList.at(i) << endl;
+    }
 
 
     cout << "Rule Evaluation" << endl;

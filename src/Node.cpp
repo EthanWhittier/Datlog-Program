@@ -12,6 +12,14 @@ Node::Node(unsigned int ruleNumber) {
 
 }
 
+void Node::setVist(bool visit) {
+    visited = visit;
+}
+
+int Node::getPostOrder() {
+    return postOrder;
+}
+
 void Node::setPostOrder(int post) {
     postOrder = post;
 }

@@ -1,5 +1,3 @@
-
-
 Schemes:
 Parent(p,c)
 Sibling(a,b)
@@ -11,11 +9,12 @@ Parent('jim','bob').
 Sibling('sue','ned').
 
 Rules:
-Sibling(x,y):-Sibling(y,x).
-Ancestor(x,y):-Ancestor(x,z),Parent(z,y).
-Ancestor(x,y):-Parent(x,y).
+A(X,Y) :- B(X,Y), C(X,Y). # R0
+B(X,Y) :- A(X,Y), D(X,Y). # R1
+B(X,Y) :- B(Y,X).         # R2
+E(X,Y) :- F(X,Y), G(X,Y). # R3
+E(X,Y) :- E(X,Y), F(X,Y). # R4
 
 Queries:
 Ancestor(x,'ned')?
 Sibling('ned','sue')?
-

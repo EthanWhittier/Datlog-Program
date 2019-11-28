@@ -18,6 +18,7 @@ class Node {
     bool isVisited();
     int getPostOrder();
     void setPostOrder(int post);
+    void setVist(bool visit);
     set<unsigned int> dependencies;
 
 

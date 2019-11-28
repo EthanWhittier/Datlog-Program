@@ -9,29 +9,31 @@ Graph::Graph() {
 
 void Graph::DepthFirstForest() {
 
-
+    for(unsigned int i = 0; i < graph.size(); i++) {
+        if(!graph[i].isVisited()) {
+            DepthFirstSearch(i);
+        }
+    }
 
 
 }
 
 void Graph::DepthFirstSearch(int i) {
 
-
-    graph[i].isVisited = true;
+    bool visit = true;
+    graph[i].setVist(visit);
     set<unsigned int>::iterator it;
 
     for(it = graph[i].dependencies.begin(); it != graph[i].dependencies.end(); it++) {
 
-        if(graph[*it].isVisited == false) {
+        if(graph[*it].isVisited() == false) {
             DepthFirstSearch(*it);
+
         }
 
-        
-        
-
     }
-
-
+    
+    postOrderList.push_back(i + 1);
 
 
 }
