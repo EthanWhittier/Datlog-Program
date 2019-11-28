@@ -12,6 +12,10 @@ Node::Node(unsigned int ruleNumber) {
 
 }
 
+void Node::setPostOrder(int post) {
+    postOrder = post;
+}
+
 
 int Node::getNodeID() {
 

@@ -17,6 +17,7 @@ class Node {
     int getNodeID();
     bool isVisited();
     int getPostOrder();
+    void setPostOrder(int post);
     set<unsigned int> dependencies;
 
 

@@ -30,6 +30,7 @@ class Interpreter {
         int TupleCount();
         Relation checkTuples(int i);
         void CreateDependancies();
+        void CreateReverseDependancies();
         int tuplesBeforeRules = 0;
         int tuplesAfterRules = 0;
         int numberOfPasses = 0;
@@ -47,6 +48,7 @@ class Interpreter {
         vector<Relation> evaluatedRules;
         Relation relationFromRule;
         Graph forwardGraph;
+        Graph reverseGraph;
         
 
 };

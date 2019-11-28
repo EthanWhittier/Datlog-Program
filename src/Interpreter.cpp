@@ -39,7 +39,10 @@ Interpreter::Interpreter(DatalogProgram datalog) {
     for(unsigned int i = 0; i < datalog.rules.size(); i++) {
         Node newNode(i);
         forwardGraph.graph.insert({i, newNode});
+        reverseGraph.graph.insert({i, newNode});
      }
+     
+
 }
 
 bool Interpreter::isConstant(string parameter) {
@@ -266,6 +269,9 @@ void Interpreter::EvaluateRules() {
     bool tuplesAdded = true;
     CreateDependancies();
     forwardGraph.toString();
+    CreateReverseDependancies();
+    cout << endl << endl;
+    reverseGraph.toString();
 
 
     cout << "Rule Evaluation" << endl;
@@ -454,6 +460,22 @@ void Interpreter::CreateDependancies() {
 
         }
 
+    }
+
+
+}
+
+void Interpreter::CreateReverseDependancies() {
+
+    set<unsigned int>::iterator it;
+
+    for(unsigned int i = 0; i < forwardGraph.graph.size(); i++) {
+
+        for(it = forwardGraph.graph[i].dependencies.begin(); it != forwardGraph.graph[i].dependencies.end(); it++) {
+
+            reverseGraph.graph[*it].dependencies.insert(i);
+
+        }
     }
 
 

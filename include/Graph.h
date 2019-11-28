@@ -18,8 +18,9 @@ class Graph {
     public:
     Graph();
     void toString();
-    void DepthFirstSearch();
+    void DepthFirstSearch(int i);
     void DepthFirstForest();
+    vector<int> postOrderList;
     map<int, Node> graph;
 
 

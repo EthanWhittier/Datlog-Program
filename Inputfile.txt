@@ -1,23 +1,21 @@
+
+
 Schemes:
-    f(A,B)
-    g(C,D)
-    r(E,F)
+Parent(p,c)
+Sibling(a,b)
+Ancestor(x,y)
 
 Facts:
-    f('1','2').
-    f('4','3').
-    g('3','2').
-    r('1','4').
-    r('2','5').
-    r('3','5').
-    r('4','1').
- 
+Parent('bob','ned').
+Parent('jim','bob').
+Sibling('sue','ned').
+
 Rules:
-    r(A,B) :- f(A,X),g(B,X).
-    f(C,D) :- r(D,C).
-    g(E,F) :- f(E,X),r(X,F).
+Sibling(x,y):-Sibling(y,x).
+Ancestor(x,y):-Ancestor(x,z),Parent(z,y).
+Ancestor(x,y):-Parent(x,y).
 
 Queries:
-    f('3',Z)?
-    r(Y,'3')?
-    f(W,X)?
+Ancestor(x,'ned')?
+Sibling('ned','sue')?
+

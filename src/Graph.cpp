@@ -6,6 +6,38 @@ Graph::Graph() {
 
 }
 
+
+void Graph::DepthFirstForest() {
+
+
+
+
+}
+
+void Graph::DepthFirstSearch(int i) {
+
+
+    graph[i].isVisited = true;
+    set<unsigned int>::iterator it;
+
+    for(it = graph[i].dependencies.begin(); it != graph[i].dependencies.end(); it++) {
+
+        if(graph[*it].isVisited == false) {
+            DepthFirstSearch(*it);
+        }
+
+        
+        
+
+    }
+
+
+
+
+}
+
+
+
 void Graph::toString() {
 
     cout << "Dependancy Graph:" << endl;
