@@ -18,9 +18,10 @@ class Graph {
     public:
     Graph();
     void toString();
-    void DepthFirstSearch(int i);
-    void DepthFirstForest();
+    void DepthFirstSearch(int i, bool add);
+    void DepthFirstForest(bool order);
     vector<int> postOrderList;
+    vector<vector<int>> SCC;
     map<int, Node> graph;
 
 

@@ -267,16 +267,23 @@ void Interpreter::EvaluateRulePred(string relationName, vector<string>paramList)
 void Interpreter::EvaluateRules() {
 
     bool tuplesAdded = true;
+    bool first = true;
+    
     CreateDependancies();
     forwardGraph.toString();
     CreateReverseDependancies();
-    cout << endl << endl;
-    //reverseGraph.toString();
-
-    reverseGraph.DepthFirstForest();
+    
+    reverseGraph.DepthFirstForest(first);
+    first = false;
+    
     for(unsigned int i = 0; i < reverseGraph.postOrderList.size(); i++) {
-        cout << reverseGraph.postOrderList.at(i) << endl;
+        reverseGraph.graph[i].setPostOrder(reverseGraph.postOrderList.at(i));
     }
+
+    reverseGraph.DepthFirstForest(first);
+
+    
+    
 
 
     cout << "Rule Evaluation" << endl;

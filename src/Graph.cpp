@@ -7,19 +7,37 @@ Graph::Graph() {
 }
 
 
-void Graph::DepthFirstForest() {
+void Graph::DepthFirstForest(bool order) {
 
     for(unsigned int i = 0; i < graph.size(); i++) {
-        if(!graph[i].isVisited()) {
-            DepthFirstSearch(i);
-        }
+        graph[i].setVist(false);
     }
+
+   if(order) { 
+        for(unsigned int i = 0; i < graph.size(); i++) {
+            if(!graph[i].isVisited()) {
+               DepthFirstSearch(i, true);
+            }
+        }
+   }
+   else {
+       int nodeToVist = postOrderList.size() + 1;
+       for(unsigned int i = 0; i < postOrderList.size(); i++) {
+           for(unsigned int j = 0; j < postOrderList.size(); j++) {
+               if(postOrderList.at(j) == nodeToVist) {
+                   DepthFirstSearch(j, false);
+               }
+               nodeToVist--;
+           }
+       }
+   }
 
 
 }
 
-void Graph::DepthFirstSearch(int i) {
+void Graph::DepthFirstSearch(int i, bool add) {
 
+    vector<int> scc;
     bool visit = true;
     graph[i].setVist(visit);
     set<unsigned int>::iterator it;
@@ -27,13 +45,19 @@ void Graph::DepthFirstSearch(int i) {
     for(it = graph[i].dependencies.begin(); it != graph[i].dependencies.end(); it++) {
 
         if(graph[*it].isVisited() == false) {
-            DepthFirstSearch(*it);
-
+            scc.push_back(*it);
+            DepthFirstSearch(*it, add);
+            
         }
 
     }
     
-    postOrderList.push_back(i + 1);
+    if(add) {
+        postOrderList.push_back(i + 1);
+    }
+    else {
+        SCC.push_back(scc);
+    }
 
 
 }
