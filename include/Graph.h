@@ -22,6 +22,7 @@ class Graph {
     void DepthFirstForest(bool order);
     vector<int> postOrderList;
     vector<vector<int>> SCC;
+    vector<int>scc;
     map<int, Node> graph;
 
 

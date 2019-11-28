@@ -276,13 +276,15 @@ void Interpreter::EvaluateRules() {
     reverseGraph.DepthFirstForest(first);
     first = false;
     
-    for(unsigned int i = 0; i < reverseGraph.postOrderList.size(); i++) {
-        reverseGraph.graph[i].setPostOrder(reverseGraph.postOrderList.at(i));
+    forwardGraph.postOrderList = reverseGraph.postOrderList;
+
+    forwardGraph.DepthFirstForest(false);
+    cout << "Strongly Connected Components:" << endl;
+    for(unsigned int i = 0; i < reverseGraph.SCC.size(); i++) {
+        for(unsigned int j = 0; j < reverseGraph.SCC.at(i).size(); j++) {
+            cout << "R" << reverseGraph.SCC.at(i).at(j) << ",";
+        }
     }
-
-    reverseGraph.DepthFirstForest(first);
-
-    
     
 
 
